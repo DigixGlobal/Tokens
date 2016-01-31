@@ -6,13 +6,29 @@ Has additional event called TransferFrom that is not standard (instead of just T
 This is to recreate state using only events.
 .*/
 
-import "Token";
+import "Token.sol";
 
 contract Standard_Token is Token {
+
+    address issuer;
+
+    modifier ifissuer { if(issuer == tx.origin) _ }
 
     function Standard_Token(uint256 _initial_amount) {
         balances[msg.sender] = _initial_amount;
         total_supply = _initial_amount;
+        issuer = tx.origin;
+    }
+
+    function issue(uint256 _new_amount) ifissuer returns (bool success) {
+      balances[issuer] = _new_amount;
+      total_supply += _new_amount;
+      return true;
+    }
+
+    function setIssuer(address _new_issuer) ifissuer returns (bool success) {
+      issuer = _new_issuer;
+      return true;
     }
 
     function transfer(address _to, uint256 _value) returns (bool success) {
