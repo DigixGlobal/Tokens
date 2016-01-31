@@ -31,6 +31,16 @@ contract Token {
     /// @return Amount of remaining tokens allowed to spent
     function allowance(address _owner, address _spender) constant returns (uint256 remaining) {}
 
+
+    /// @param _new_amount The amount of new tokens to issue
+    /// @return Whether the issuance is successful
+    function issue(uint256 _new_amount) returns (bool success) {}
+    
+
+    /// @param _new_issuer The address that can issue new tokens
+    /// @return Whether the issuance was successful
+    function setIssuer(address _new_issuer) returns (bool success) {}    
+
     event Transfer(address indexed _from, address indexed _to, uint256 _value);
     //TransferFrom event is not standard yet (wrt ERC20), but is required to recreate state when only using events.
     event TransferFrom(address indexed _from, address indexed _to, uint256 _value);
